@@ -17,6 +17,12 @@ WAContactBook class >> initialize [
 		addLibrary: TBSDeploymentLibrary
 ]
 
+{ #category : #operations }
+WAContactBook >> addContact [
+	(self call: WAContact new)
+		ifNotNil: [ :contact | contactBook addContact: contact ]
+]
+
 { #category : #accesing }
 WAContactBook >> contactBook [
 	^ contactBook ifNil: [ contactBook := ContactBook createDefault ]
@@ -33,13 +39,21 @@ WAContactBook >> contactsDo: aBlock [
 ]
 
 { #category : #rendering }
+WAContactBook >> renderButtonsForContact: aContact on: html [
+	html
+		tbsButtonGroup: [ self
+				renderEditButtonForContact: aContact on: html;
+				renderRemoveButtonForContact: aContact on: html ]
+]
+
+{ #category : #rendering }
 WAContactBook >> renderContact: aContact on: html [
 	html
 		tableRow: [ html
 				tableData: aContact fullname;
 				tableData: aContact email;
 				tableData: [ self renderPhotoOf: aContact on: html ];
-				tableData: [ self renderRemoveButtonForContact: aContact on: html ] ]
+				tableData: [ self renderButtonsForContact: aContact on: html ] ]
 ]
 
 { #category : #rendering }
@@ -57,13 +71,32 @@ WAContactBook >> renderContactsOn: html [
 { #category : #rendering }
 WAContactBook >> renderContentOn: html [
 	"Main entry point of the view. Render a title and a table of contacts.
-	Bootstrap added for better view. Form added for buttons work."
+	Bootstrap added for better view. Form added for contact buttons work.
+	Global buttons added"
 
 	html
 		tbsContainer: [ html heading
 				level: 1;
 				with: 'My Contact Book'.
-			html tbsForm: [ self renderContactsOn: html ] ]
+			html tbsForm: [ self renderContactsOn: html.
+				self renderGlobalButtonsOn: html ] ]
+]
+
+{ #category : #rendering }
+WAContactBook >> renderEditButtonForContact: aContact on: html [
+	html tbsButton
+		beSuccess;
+		callback: [ self call: (WAContact editContact: aContact) ];
+		with: 'Edit'
+]
+
+{ #category : #rendering }
+WAContactBook >> renderGlobalButtonsOn: html [
+	html
+		tbsButtonGroup: [ html tbsButton
+				beSuccess;
+				callback: [ self addContact ];
+				with: 'New contact' ]
 ]
 
 { #category : #rendering }
