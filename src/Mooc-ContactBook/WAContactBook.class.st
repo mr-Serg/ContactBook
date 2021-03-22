@@ -38,7 +38,8 @@ WAContactBook >> renderContact: aContact on: html [
 		tableRow: [ html
 				tableData: aContact fullname;
 				tableData: aContact email;
-				tableData: [ self renderPhotoOf: aContact on: html ] ]
+				tableData: [ self renderPhotoOf: aContact on: html ];
+				tableData: [ self renderRemoveButtonForContact: aContact on: html ] ]
 ]
 
 { #category : #rendering }
@@ -56,18 +57,26 @@ WAContactBook >> renderContactsOn: html [
 { #category : #rendering }
 WAContactBook >> renderContentOn: html [
 	"Main entry point of the view. Render a title and a table of contacts.
-	Bootstrap added for better view."
+	Bootstrap added for better view. Form added for buttons work."
 
 	html
 		tbsContainer: [ html heading
 				level: 1;
 				with: 'My Contact Book'.
-			self renderContactsOn: html ]
+			html tbsForm: [ self renderContactsOn: html ] ]
 ]
 
 { #category : #rendering }
 WAContactBook >> renderPhotoOf: aContact on: html [
 	html image url: aContact gravatarUrl
+]
+
+{ #category : #rendering }
+WAContactBook >> renderRemoveButtonForContact: aContact on: html [
+	html tbsButton
+		beDanger;
+		callback: [ self contactBook removeContact: aContact ];
+		with: 'Remove'
 ]
 
 { #category : #updating }
