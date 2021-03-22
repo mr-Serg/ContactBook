@@ -19,7 +19,7 @@ ContactBookTest >> testAddContact [
 
 { #category : #tests }
 ContactBookTest >> testDefaultCreation [
-	self assert: ContactBook createDefault contacts size equals: 4
+	self assert: ContactBook createDefault contacts size equals: 5
 ]
 
 { #category : #tests }
@@ -29,6 +29,6 @@ ContactBookTest >> testRemoveContact [
 	contact := book contacts at: 1.
 	nextContact := book contacts at: 2.
 	book removeContact: contact.
-	self assert: book contacts size equals: 3.
+	self assert: book contacts size equals: 4.
 	self assert: (book contacts at: 1) equals: nextContact
 ]

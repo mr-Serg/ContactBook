@@ -27,7 +27,7 @@ Contact >> email [
 
 { #category : #accessing }
 Contact >> email: aString [ 
-	email := aString asLowercase 
+	email := aString trimBoth asLowercase 
 ]
 
 { #category : #accessing }
@@ -38,6 +38,11 @@ Contact >> fullname [
 { #category : #accessing }
 Contact >> fullname: aString [
 	fullname := aString trimBoth
+]
+
+{ #category : #accessing }
+Contact >> gravatarUrl [
+	^ 'http://www.gravatar.com/avatar/' , (MD5 hashMessage: email) hex , '.jpg'
 ]
 
 { #category : #printing }

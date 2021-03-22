@@ -17,6 +17,7 @@ ContactBook class >> createDefault [
 		addContact: (Contact newNamed: 'Marcus Denker' email: 'marcus.denker@inria.fr');
 		addContact: (Contact newNamed: 'Tudor Girba' email: 'tudor@tudorgirba.com');
 		addContact: (Contact newNamed: 'Clara Allende' email: 'clari.allende@gmail.com');
+		addContact: (Contact newNamed: 'Oksana Yaroshko' email: 'oksyanya@gmail.com');
 		yourself
 ]
 
